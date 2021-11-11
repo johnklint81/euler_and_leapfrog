@@ -37,6 +37,7 @@ def get_energy(_r, _v, _m, _k):
 timestep_list = [0.0001, 0.002, 0.02]
 
 fig1, axis = plt.subplots(2, 3)
+colors = ['blue', 'green', 'orange']
 
 for i, timestep in enumerate(timestep_list):
     number_of_steps = int(max_time / timestep)
@@ -49,13 +50,13 @@ for i, timestep in enumerate(timestep_list):
     U_euler, K_euler = get_energy(r_euler, v_euler, m, k)
     E_euler = (U_euler + K_euler) / (U_euler[0] + K_euler[0])
     E_analytic = (U_analytic + K_analytic) / (U_analytic[0] + K_analytic[0])
-    axis[0, i].plot(t_plot, r_euler / A, 'r', alpha=0.7, label='Euler position')
+    axis[0, i].plot(t_plot, r_euler / A, color=colors[i], alpha=0.7, label='Euler position')
     # axis[0, i].plot(t_plot, v_euler, 'b', alpha=0.7, label='Euler velocity')
     axis[0, i].plot(t_plot, r_analytic / A, 'k--', label='Analytical position')
     axis[0, i].set_title(f'$\Delta t$ = {1000*timestep} ms')
-    axis[1, i].plot(t_plot, E_euler, 'g', label='Total simulated energy')
+    axis[1, i].plot(t_plot, E_euler, color=colors[i], label='Total simulated energy')
     axis[1, i].plot(t_plot, E_analytic, 'k--', label='Total analytic energy')
-    axis[1, i].set_xlabel('t/number_of_timesteps')
+    axis[1, i].set_xlabel('t/T')
     axis[1, i].set_ylim([0, 5])
     axis[0, i].set_ylim([-5, 5])
     axis[0, i].set_xticks([])

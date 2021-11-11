@@ -38,6 +38,7 @@ def get_energy(_r, _v, _m, _k):
 timestep_list = [0.0001, 0.002, 0.02]
 
 fig1, axis = plt.subplots(2, 3)
+colors = ['blue', 'green', 'orange']
 
 for i, timestep in enumerate(timestep_list):
     number_of_steps = int(max_time / timestep)
@@ -50,13 +51,13 @@ for i, timestep in enumerate(timestep_list):
     U_leapfrog, K_leapfrog = get_energy(r_leapfrog, v_leapfrog, m, k)
     E_leapfrog = (U_leapfrog + K_leapfrog) / (U_leapfrog[0] + K_leapfrog[0])
     E_analytic = (U_analytic + K_analytic) / (U_analytic[0] + K_analytic[0])
-    axis[0, i].plot(t_plot, r_leapfrog / A, 'r', alpha=0.7, label='Leapfrog position')
+    axis[0, i].plot(t_plot, r_leapfrog / A, color=colors[i], alpha=0.7, label='Leapfrog position')
     # axis[0, i].plot(t_plot, v_leapfrog, 'b', alpha=0.7, label='Leapfrog velocity')
     axis[0, i].plot(t_plot, r_analytic / A, 'k--', label='Analytical position')
     axis[0, i].set_title(f'$\Delta t$ = {1000*timestep} ms')
-    axis[1, i].plot(t_plot, E_leapfrog, 'g', label='Total simulated energy')
+    axis[1, i].plot(t_plot, E_leapfrog, color=colors[i], label='Total simulated energy')
     axis[1, i].plot(t_plot, E_analytic, 'k--', label='Total analytic energy')
-    axis[1, i].set_xlabel('t/number_of_timesteps')
+    axis[1, i].set_xlabel('t/T')
     axis[1, i].set_ylim([0.90, 1.1])
     axis[0, i].set_ylim([-1.5, 1.5])
     axis[0, i].set_xticks([])
@@ -67,9 +68,8 @@ for i, timestep in enumerate(timestep_list):
         axis[1, i].set_yticks([])
 
 
-
 fig1.suptitle(f'Leapfrog algorithm')
-axis[0, 0].set_ylabel('r')
+axis[0, 0].set_ylabel('r/A')
 axis[1, 0].set_ylabel('E/E$_0$')
 
 plt.tight_layout()
